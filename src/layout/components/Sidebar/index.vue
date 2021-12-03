@@ -1,52 +1,40 @@
 <template>
-    <div>
-        <el-scrollbar wrap-class="scrollbar-wrapper">
-            <el-menu
-                :default-active="activeMenu"
-                :collapse="isCollapse"
-                background-color="#304156"
-                text-color="#bfcbd9"
-                :unique-opened="false"
-                active-text-color="#409eff"
-                :collapse-transition="false"
-                :router="true"
-                mode="vertical"
-            >
-                <sidebar-item
-                    v-for="route in permission_routes"
-                    :key="route.path"
-                    :item="route"
-                    :base-path="route.path"
-                />
-            </el-menu>
-        </el-scrollbar>
-    </div>
+	<el-aside>
+		<el-scrollbar wrap-class="scrollbar-wrapper">
+			<el-menu
+				default-active="2"
+				@open="handleOpen"
+				@close="handleClose"
+				:background-color="variables.menuBg"
+				:text-color="variables.menuText"
+				:active-text-color="variables.menuActiveText"
+			>
+				<el-menu-item index="2">
+					<i class="el-icon-menu"></i>
+					<span slot="title">导航二</span>
+				</el-menu-item>
+				<el-menu-item index="3" disabled>
+					<i class="el-icon-document"></i>
+					<span slot="title">导航三</span>
+				</el-menu-item>
+				<el-menu-item index="4">
+					<i class="el-icon-setting"></i>
+					<span slot="title">导航四</span>
+				</el-menu-item>
+			</el-menu>
+		</el-scrollbar>
+	</el-aside>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import SidebarItem from "./SidebarItem";
+import variables from "@/styles/variables.scss";
 export default {
-    components: {
-        SidebarItem,
-    },
-    computed: {
-        ...mapGetters(['permission_routes', 'sidebar']),
-        activeMenu() {
-            const route = this.$route;
-            const { meta, path } = route;
-            // if set path, the sidebar will highlight the path you set
-            if (meta.activeMenu) {
-                return meta.activeMenu;
-            }
-            return path;
-        },
-        isCollapse() {
-            return !this.sidebar.opened
-        }
-    },
+	computed: {
+		variables() {
+			return variables;
+		},
+	},
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

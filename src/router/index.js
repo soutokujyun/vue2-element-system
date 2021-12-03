@@ -7,9 +7,17 @@ import Layout from '@/layout'
 
 Vue.use(VueRouter);
 
+// 路由白名单
 const whiteList = ['/login'] // no redirect whitelist
 
+// 固定路由
 export const constantRoutes = [
+    {
+        path: "/login",
+        name: "Login",
+        component: () => import("@/views/login/index"),
+        hidden: true
+    },
     {
         path: '/',
         component: Layout,
@@ -19,15 +27,9 @@ export const constantRoutes = [
                 path: 'dashboard',
                 name: 'Dashboard',
                 component: () => import('@/views/dashboard/index'),
-                meta: { title: 'Dashboard', icon: 's-home' }
+                meta: { title: 'Dashboard', icon: 's-home', affix: true }
             }
         ]
-    },
-    {
-        path: "/login",
-        name: "Login",
-        component: () => import("@/views/login/index"),
-        hidden: true
     },
 ];
 

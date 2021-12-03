@@ -5,7 +5,7 @@ module.exports = {
         port: 8080,
         proxy:{
             "/dev-api": {
-                target: "http://app-pm2:3000",
+                target: "http://localhost:3000",
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {"^/dev-api" : ""}
