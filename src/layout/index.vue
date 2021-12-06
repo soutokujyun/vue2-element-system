@@ -2,8 +2,9 @@
 	<el-container class="app-wrapper" :class="classObj">
 		<sidebar />
 		<el-container class="main-container">
-			<el-header>
+			<el-header height="unset">
 				<navbar />
+				<tags-view />
 			</el-header>
 			<el-main>
 				<app-main />
@@ -13,13 +14,14 @@
 </template>
 
 <script>
-import { Sidebar, Navbar, AppMain } from './components'
+import { Sidebar, Navbar, AppMain, TagsView } from './components'
 import { mapState } from 'vuex'
 export default {
 	name: "Layout",
     components: {
         Sidebar,
 		Navbar,
+		TagsView,
 		AppMain
     },
 	computed: {

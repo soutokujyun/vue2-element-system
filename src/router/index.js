@@ -33,6 +33,7 @@ export const asyncRoutes = [
     {
         path: '/about',
         component: Layout,
+        redirect: '/about/index',
         children: [
             {
                 path: 'index',
@@ -49,7 +50,8 @@ export const asyncRoutes = [
         name: 'Support',
         meta: {
             title: 'Support',
-            icon: 'coffee'
+            icon: 'coffee',
+            roles: ['editor']
         },
         children: [
             {
