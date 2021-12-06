@@ -1,6 +1,6 @@
 <template>
     <div>
-        Learn
+        Service
     </div>
 </template>
 

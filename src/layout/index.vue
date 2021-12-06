@@ -1,9 +1,10 @@
 <template>
-	<el-container class="app-wrapper">
-		<sidebar class="sidebar-container" />
-		<el-container>
-			<el-header> </el-header>
-
+	<el-container class="app-wrapper" :class="classObj">
+		<sidebar />
+		<el-container class="main-container">
+			<el-header>
+				<navbar />
+			</el-header>
 			<el-main>
 				<router-view></router-view>
 			</el-main>
@@ -12,12 +13,24 @@
 </template>
 
 <script>
-import { Sidebar} from './components'
+import { Sidebar, Navbar } from './components'
+import { mapState } from 'vuex'
 export default {
 	name: "Layout",
     components: {
         Sidebar,
+		Navbar
     },
+	computed: {
+		...mapState({
+			sidebar: state => state.app.sidebar
+		}),
+		classObj() {
+			return {
+				hideSidebar: !this.sidebar.opened
+			}
+		}
+	},
 };
 </script>
 
@@ -29,5 +42,8 @@ export default {
 	position: relative;
 	height: 100%;
 	width: 100%;
+}
+.el-header {
+	padding: 0;
 }
 </style>
