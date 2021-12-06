@@ -1,14 +1,8 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
     <div class="tags-view-wrapper">
-      <router-link tag="span" class="tags-view-item" to="/"
-        >dashboard</router-link
-      >
-      <router-link tag="span" class="tags-view-item" to="/about"
-        >About</router-link
-      >
-      <router-link tag="span" class="tags-view-item" to="/support"
-        >Support</router-link
+      <router-link v-for="tag in visitedViews" :key="tag.path" tag="span" class="tags-view-item" :to="tag.path"
+        >{{ tag.meta.title }}</router-link
       >
     </div>
   </div>
@@ -18,7 +12,21 @@
 export default {
     computed: {
         visitedViews() {
-            return this.$store.tagsView.visitedViews 
+            return this.$store.state.tagsView.visitedViews
+        }
+    },
+    watch: {
+        $route() {
+            this.addTags()
+        }
+    },
+    methods: {
+        addTags() {
+            const { name } = this.$route;
+            if (name) {
+                this.$store.dispatch('tagsView/addView', this.$route)
+            }
+            return false
         }
     },
 };

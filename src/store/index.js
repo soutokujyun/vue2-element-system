@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import app from './modules/app'
 import user from './modules/user'
 import permission from './modules/permission'
+import tagsView from './modules/tagsView'
 
 import getters from './getters'
 import presist from './plugins/persist'
@@ -13,7 +14,8 @@ export default new Vuex.Store({
   modules: {
     user,
     permission,
-    app
+    app,
+    tagsView
   },
   getters,
   plugins: [presist],
