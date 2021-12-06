@@ -125,7 +125,7 @@ export default {
 							} else {
 								this.$router
 									.push({
-										name: "dashboard",
+										name: "Dashboard",
 									})
 									.catch(() => {});
 							}

@@ -8,6 +8,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+import './permission.js'
+
 Vue.use(Element);
 
 new Vue({

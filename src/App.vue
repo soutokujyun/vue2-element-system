@@ -4,14 +4,9 @@
     </div>
 </template>
 
-<style>
-html,
-body {
-    padding: 0;
-    margin: 0;
+<script>
+export default {
+    name: 'App'
 }
-#app {
-    width: 100%;
-    height: calc(100vh);
-}
-</style>
+</script>
+

@@ -1,4 +1,5 @@
 import { login, getInfo } from "@/api/user";
+import router, {resetRouter} from '@/router'
 export default {
     namespaced: true,
     state: {
@@ -69,6 +70,9 @@ export default {
         logout({ commit }) {
             commit("SET_TOKEN", "");
             commit("SET_NAME", "");
+            commit("SET_ROLES", []);
+            router.push('/login');
+            resetRouter();
         }
     }
 };

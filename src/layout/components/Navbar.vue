@@ -6,27 +6,68 @@
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <div class="right-menu">
+      <el-dropdown
+        class="avatar-container right-menu-item hover-effect"
+        trigger="click"
+      >
+        <div class="avatar-wrapper">
+          <img
+            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+            class="user-avatar"
+          />
+          <i class="el-icon-caret-bottom" />
+        </div>
+        <el-dropdown-menu slot="dropdown">
+          <router-link to="/profile/index">
+            <el-dropdown-item>Profile</el-dropdown-item>
+          </router-link>
+          <router-link to="/">
+            <el-dropdown-item>Dashboard</el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided @click.native="logout">
+            <span style="display:block;">Log Out</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from "vuex";
+import Hamburger from "@/components/Hamburger";
+import Breadcrumb from "@/components/Breadcrumb";
 export default {
-    components: {
-        Hamburger,
+  components: {
+    Hamburger,
+    Breadcrumb,
+  },
+  computed: {
+    ...mapGetters(["sidebar"]),
+  },
+  methods: {
+    toggleSideBar() {
+      this.$store.dispatch("app/toggleSideBar");
     },
-    computed: {
-        ...mapGetters([
-            'sidebar'
-        ])
+    logout() {
+      this.$confirm("Logout?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "info",
+      })
+        .then(() => {
+          this.$store.dispatch("user/logout");
+          this.$message({
+            type: "success",
+            message: "Logout success !!",
+          });
+        })
+        .catch(() => {});
     },
-    methods: {
-        toggleSideBar() {
-            this.$store.dispatch('app/toggleSideBar')
-        }
-    },
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

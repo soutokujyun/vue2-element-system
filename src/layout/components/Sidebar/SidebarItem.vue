@@ -66,4 +66,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.svg-icon {
+  color: currentColor;
+  width: 1em;
+  height: 1em;
+}
+</style>

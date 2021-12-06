@@ -6,20 +6,21 @@
 				<navbar />
 			</el-header>
 			<el-main>
-				<router-view></router-view>
+				<app-main />
 			</el-main>
 		</el-container>
 	</el-container>
 </template>
 
 <script>
-import { Sidebar, Navbar } from './components'
+import { Sidebar, Navbar, AppMain } from './components'
 import { mapState } from 'vuex'
 export default {
 	name: "Layout",
     components: {
         Sidebar,
-		Navbar
+		Navbar,
+		AppMain
     },
 	computed: {
 		...mapState({

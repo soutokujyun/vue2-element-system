@@ -22,9 +22,6 @@ export default {
       default: false
     }
   },
-  mounted () {
-      console.log(this.isActive)
-  },
   methods: {
     toggleClick() {
       this.$emit('toggleClick')
