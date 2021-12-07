@@ -1,34 +1,101 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
     <div class="tags-view-wrapper">
-      <router-link v-for="tag in visitedViews" :key="tag.path" tag="span" class="tags-view-item" :to="tag.path"
-        >{{ tag.meta.title }}</router-link
+      <router-link
+        v-for="tag in visitedViews"
+        :key="tag.path"
+        :class="isActive(tag)?'active':''"
+        tag="span"
+        class="tags-view-item"
+        :to="tag.path"
       >
+        {{ tag.meta.title }}
+        <span
+          v-if="!isAffix(tag)"
+          class="el-icon-close"
+          @click.prevent.stop="closeSelectedTag(tag)"
+        />
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import path from 'path'
+
 export default {
-    computed: {
-        visitedViews() {
-            return this.$store.state.tagsView.visitedViews
-        }
+  computed: {
+    visitedViews() {
+      return this.$store.state.tagsView.visitedViews;
     },
-    watch: {
-        $route() {
-            this.addTags()
-        }
+    routes() {
+      return this.$store.state.permission.routes
+    }
+  },
+  watch: {
+    $route() {
+      this.addTags();
     },
-    methods: {
-        addTags() {
-            const { name } = this.$route;
-            if (name) {
-                this.$store.dispatch('tagsView/addView', this.$route)
-            }
-            return false
-        }
+  },
+  created () {
+    this.initTags();
+    this.addTags();
+  },
+  methods: {
+    isActive(view) {
+      return view.path == this.$route.path
     },
+    filterAffixTags(routes, basePath = '/') {
+      let tags = [basePath];
+      routes.forEach(route => {
+        if (route.meta && route.meta.affix) {
+          let tagPath = path.join(basePath, route.path);
+          tags.push({
+            fullPath: tagPath,
+            path: tagPath,
+            name: route.name,
+            meta: { ...route.meta }
+          });
+        }
+
+        if (route.children) {
+          const tempTags = this.filterAffixTags(route.children, route.path);
+          if (tempTags.length > 1) {
+            tags = [...tags, ...tempTags];
+          }
+        }
+      })
+
+      return tags;
+    },
+    // 将含有affix属性的路由保留下来
+    initTags() {
+      const affixTags = this.filterAffixTags(this.routes);
+      for (const tag of affixTags) {
+        if (tag.name) {
+          this.$store.dispatch("tagsView/addView", tag);
+        }
+      }
+    },
+    addTags() {
+      const { name } = this.$route;
+      if (name) {
+        this.$store.dispatch("tagsView/addView", this.$route);
+      }
+      return false;
+    },
+    closeSelectedTag(view) {
+      this.$store.dispatch("tagsView/delView", view).then((tag) => {
+        // 当前页面是 active 状态，关闭后跳转到它的前一个页面
+        if (this.isActive(view)) {
+          this.$router.push(tag.path);
+        }
+      });
+    },
+    isAffix(view) {
+      return view.meta && view.meta.affix;
+    },
+  },
 };
 </script>
 
